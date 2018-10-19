@@ -12,7 +12,7 @@
     </div>
     <div class="searchresult" v-show="lshow">
       <ul class="list-ul">
-        <li v-for="(item, index) in list" @click="opensong(item)">
+        <li v-for="(item, index) in list" @click="opensong(item)" :key="index">
           <div class="img" :class="{'active': number===index}">
             {{index + 1}}
           </div>

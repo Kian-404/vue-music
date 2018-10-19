@@ -4,6 +4,7 @@ import Vue from 'vue';
 import App from './App';
 import Axios from './utils/axios';
 import Router from 'vue-router';
+import axios from 'axios'
 import Music from './components/Music';
 import Rank from './components/Rank';
 import Station from './components/Station';
@@ -27,8 +28,12 @@ Vue.use(VueLazyload, {
 });
 Vue.use(Router);
 
-const routes = [{
-  path: '/',
+const routes = [
+  {
+    path: '/',
+    redirect:'/home'
+  },{
+  path: '/home',
   component: Index
 }, {
   path: '/music',

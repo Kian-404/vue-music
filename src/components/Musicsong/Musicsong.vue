@@ -70,7 +70,7 @@
             <div class="title" @click="nulllist">清空</div>
             <div ref="songlistWrapper" class="ul-song">
               <ul>
-                <li v-for="(item,index) in list" class="li border-1px" @click="playsong(index,item)">
+                <li v-for="(item,index) in list" class="li border-1px" @click="playsong(index,item)" :key="index">
                   <div :class="{'active':item.songname === song.songname}">
                     <span>{{index}}</span>
                     <span>{{item.songname}}</span>
@@ -87,6 +87,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import axios from 'axios';
   import Progressslider from '../Progressslider/Progressslider.vue';
   import {changeTime} from '../../common/js/changeTime';
   import BScroll from 'better-scroll';
@@ -117,6 +118,7 @@
       });
     },
     methods: {
+      //上一曲
       pre() {
         if (this.index > 0) {
           console.log('pre');
@@ -125,6 +127,7 @@
           this.playsong(this.index, this.item);
         }
       },
+      //下一曲
       next() {
         if (this.index < this.list.length - 1) {
           console.log('next');
@@ -133,6 +136,7 @@
           this.playsong(this.index, this.item);
         }
       },
+      //设置播放列表滚动
       _initScroll() {
         if (!this.songlistScroll) {
           this.songlistScroll = new BScroll(this.$refs.songlistWrapper, {
@@ -142,13 +146,16 @@
           this.songlistScroll.refresh();
         }
       },
+      //清空播放列表
       nulllist() {
         this.list.splice(0, this.list.length);
         this.hide();
       },
+      //隐藏列表
       hidelist() {
         this.listshow = false;
       },
+      //显示列表
       showlist() {
         this.listshow = true;
       },
@@ -175,8 +182,8 @@
           }
         }
       },
+      //播放歌曲
       playsong(index, item) {
-        console.log(index);
         this.hidelist();
         this.index = index;
         this.song = item;
@@ -193,15 +200,17 @@
           this.canPlaySong();
         }
       },
+      //是否能够播放
       canPlaySong() {
         document.getElementById('audioPlay').play();
         this.playing = false;
       },
+      //获取歌曲的URL并播放
       get(item) {
-        this.$http.get(api.getSong(item.id)).then((res) => {
-          console.log('加载成功');
+        axios.get(api.getSong(item.id)).then((res)=>{
+          console.log("加载成功");
           if (res.data.data[0].url === null) {
-            console.log('歌曲加载错误');
+            // console.log('歌曲加载错误');
           } else {
             this.audiourl = res.data.data[0].url;
             this.canPlaySong();
@@ -213,9 +222,11 @@
           console.log('加载歌曲信息出错:' + error);
         });
       },
+      //隐藏播放器
       hide() {
         this.showFlag = false;
       },
+      //播放暂停切换
       togglePlay() {
         if (this.playing === false) {
           document.getElementById('audioPlay').pause();
@@ -229,17 +240,27 @@
         var myaudio = document.getElementById('audioPlay');
         var time = parseInt(myaudio.currentTime);
         var timelength = myaudio.duration;
-        if (isNaN(timelength)) {
-          this.tipshow = true;
-        } else {
-          this.tipshow = false;
-          this.mwidth = time / timelength * 100;
-          this.time.start = changeTime(time);
-          this.time.end = changeTime(timelength);
-          if (timelength === time) {
-            this.togglePlay();
+        this.$nextTick(()=>{
+        //  console.log(time);
+          if (isNaN(time)) {
+            this.tipshow = true;
+          } else {
+            this.tipshow = false;
+            this.mwidth = time / timelength * 100;
+            this.time.start = changeTime(time);
+            this.time.end = changeTime(timelength);
+            if (timelength === time) {
+              if(this.list.length>1){
+                next();
+              }else{
+                this.playing = false;
+                this.togglePlay();
+              }
+            
+            }
           }
-        }
+        })
+
       },
       setTime(value) {
         var myaudio = document.getElementById('audioPlay');
@@ -272,6 +293,7 @@
       transform translate3d(100%, 0, 0)
     .menu-title
       display :flex
+      background: rgba(7, 17, 27, 0.3)
       border-1px(#ddd)
       .back
         flex-basis:40px
@@ -287,6 +309,8 @@
         text-align center
         font-size:18px
         color:#fff
+        overflow hidden
+        text-overflow ellipsis
       .setting
         flex-basis:40px
         display :inline-block

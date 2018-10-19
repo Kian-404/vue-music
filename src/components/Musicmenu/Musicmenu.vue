@@ -12,7 +12,7 @@
           <img src="../../../static/img/ph.png" alt="" width=24 height=24>
         </div>
       </div>
-      <div ref="menuWrapper" class="list-wrapper">
+      <div ref="musicmenuWrapper" class="list-wrapper">
         <div>
           <header>
             <div class="menu-user">
@@ -30,24 +30,26 @@
               </div>
             </div>
             <div class="menu-info">
-              <ul class="info-ul">
-                <li>
-                  <div class="info-img"></div>
-                  <p>14633</p>
-                </li>
-                <li>
-                  <div class="info-img"></div>
-                  <p>434</p>
-                </li>
-                <li>
-                  <div class="info-img"></div>
-                  <p>80</p>
-                </li>
-                <li>
-                  <div class="info-img"></div>
-                  <p>下载</p>
-                </li>
-              </ul>
+              <keep-alive>
+                <ul class="info-ul">
+                  <li>
+                    <div class="info-img"></div>
+                    <p>{{muiscdesc.subscribedCount}}</p>
+                  </li>
+                  <li>
+                    <div class="info-img"></div>
+                    <p>{{muiscdesc.commentCount}}</p>
+                  </li>
+                  <li>
+                    <div class="info-img"></div>
+                    <p>{{muiscdesc.shareCount}}</p>
+                  </li>
+                  <li>
+                    <div class="info-img"></div>
+                    <p>下载</p>
+                  </li>
+                </ul>
+              </keep-alive>
             </div>
             <div class="background">
               <img :src="coverImgUrl" alt="" width="100%" height="100%">
@@ -63,7 +65,7 @@
               <div class="menu border-1px"></div>
             </div>
             <ul class="list-ul">
-              <li v-for="(item, index) in musiclist" @click="openmusicsong(index,item)">
+              <li v-for="(item, index) in musiclist" @click="openmusicsong(index,item)" :key="index">
                 <div class="img" :class="{'active': number===index}">
                   {{index + 1}}
                 </div>
@@ -92,11 +94,13 @@
 </template>
 
 <script type="text/ecmascript-6">
+import axios from 'axios';
 import BScroll from 'better-scroll';
 import api from '../../api';
 export default{
   data() {
     return {
+      muiscdesc:{},
       showFlag: false,
       musiclist: {},
       number: -1,
@@ -129,6 +133,8 @@ export default{
           name: item.ar[0].name,
           songname: item.name
         };
+        this.muiscdesc = item;
+        console.log(this.muiscdesc);
       } else {
         obj = null;
       }
@@ -136,6 +142,8 @@ export default{
       this.$emit('openmusicsong', obj);
     },
     setmusiclist(item) {
+      this.muiscdesc = item;
+      console.log(this.muiscdesc);
       this._get(item);
       this.coverImgUrl = item.coverImgUrl;
       this.name = item.name;
@@ -145,18 +153,26 @@ export default{
       this.trackCount = item.trackCount;
     },
     _get(item) {
-      this.$http.get(api.getPlayListDetail(item.id)).then((res) => {
+      axios.get(api.getPlayListDetail(item.id)).then((res)=>{
         this.musiclist = res.data.playlist.tracks;
-        this.$nextTick(() => {
+        this.$nextTick(()=>{
           this._initScroll();
         });
-      }).catch((error) => {
+      }).catch((error)=>{
         console.log('加载歌单信息出错:' + error);
       });
+      // this.$http.get(api.getPlayListDetail(item.id)).then((res) => {
+      //   this.musiclist = res.data.playlist.tracks;
+      //   this.$nextTick(() => {
+      //     this._initScroll();
+      //   });
+      // }).catch((error) => {
+      //   console.log('加载歌单信息出错:' + error);
+      // });
     },
     _initScroll() {
       if (!this.menuScroll) {
-        this.menuScroll = new BScroll(this.$refs.menuWrapper, {
+        this.menuScroll = new BScroll(this.$refs.musicmenuWrapper, {
           probeType: 3,
           click: true
         });

@@ -3,10 +3,14 @@
     <header>
       <musicsearch v-on:musicsearch="showsong" v-on:openmusicsong="showsong"></musicsearch>
       <ul>
-        <li class="head-li" @click="move('/')">个性推荐</li>
+        <!-- <li class="head-li" @click="move('/')">个性推荐</li>
         <li class="head-li" @click="move('/music')">歌单</li>
         <li class="head-li" @click="move('/station')">主播电台</li>
-        <li class="head-li" @click="move('/rank')">排行榜</li>
+        <li class="head-li" @click="move('/rank')">排行榜</li> -->
+        <router-link class="head-li" tag="li" @click.native="move('/home')" to="/home">个性推荐</router-link>
+        <router-link class="head-li" tag="li" @click.native="move('/music')" to="/music">歌单</router-link>
+        <router-link class="head-li" tag="li" @click.native="move('/station')" to="/station">主播电台</router-link>
+        <router-link class="head-li" tag="li" @click.native="move('/rank')" to="/rank">排行榜</router-link>
       </ul>
       <div class="bar" :class="Classmove"></div>
     </header>
@@ -28,20 +32,15 @@ export default {
       console.log(11);
       this.$refs.menu.show(item);
     },
-    move: function (val) {
-      console.log(val);
-      if (val === '/') {
+    move(val){
+      if (val === '/home') {
         this.Classmove = 'classmove0';
-        this.$router.push({ path: val });
       } else if (val === '/music') {
         this.Classmove = 'classmove1';
-        this.$router.push({ path: val });
       } else if (val === '/station') {
         this.Classmove = 'classmove2';
-        this.$router.push({ path: val });
       } else {
         this.Classmove = 'classmove3';
-        this.$router.push({ path: val });
       }
     }
   },
@@ -79,7 +78,7 @@ export default {
       width: 25%
       height: 2px
       background: #FF0200
-      transition: all 0.375s
+      transition: all 0.375s linear 
       &.classmove0
         transform: translate3d(0,0,0)
       &.classmove1

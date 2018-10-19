@@ -82,3 +82,4 @@ github项目地址：[https://github.com/hua1995116/musiccloudWebapp/](https://g
 需要改进的有很多，请大家可以多提提意见。后续我会不断改进，如果觉得还可以，请star，你们的star是我前进的动力。
 
 
+# Vue-music

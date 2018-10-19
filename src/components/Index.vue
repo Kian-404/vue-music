@@ -4,29 +4,8 @@
       <div class="hello">
         <div class="swipe-wrapper">
           <swipe class="my-swipe">
-            <swipe-item class="slide1">
-              <img src="http://ozt4jt8av.bkt.clouddn.com/1df.png" alt="">
-            </swipe-item>
-            <swipe-item class="slide2">
-              <img src="http://ozt4jt8av.bkt.clouddn.com/2ds.png" alt="">
-            </swipe-item>
-            <swipe-item class="slide3">
-              <img src="http://ozt4jt8av.bkt.clouddn.com/3ds.png" alt="">
-            </swipe-item>
-            <swipe-item class="slide3">
-              <img src="http://ozt4jt8av.bkt.clouddn.com/4fd.png" alt="">
-            </swipe-item>
-            <swipe-item class="slide3">
-              <img src="http://ozt4jt8av.bkt.clouddn.com/5ds.png" alt="">
-            </swipe-item>
-            <swipe-item class="slide3">
-              <img src="http://ozt4jt8av.bkt.clouddn.com/6ds.png" alt="">
-            </swipe-item>
-            <swipe-item class="slide3">
-              <img src="http://ozt4jt8av.bkt.clouddn.com/7ds.png" alt="">
-            </swipe-item>
-            <swipe-item class="slide3">
-              <img src="http://ozt4jt8av.bkt.clouddn.com/8ds.png" alt="">
+            <swipe-item class="slide1" v-for="(banner, index) in bannerlist" :key="index">
+              <img :src="banner.picUrl" alt="">
             </swipe-item>
           </swipe>
         </div>
@@ -54,7 +33,7 @@
         <div class="music-list">
           <musictitle :info="info" ></musictitle>
           <ul class="list-ul">
-            <li v-for="item in music" @click="openmenuTotal(item)">
+            <li v-for="(item, index) in music" @click="openmenuTotal(item)" :key="index">
               <img v-lazy="item.coverImgUrl" alt=""/>
               <div class="item-content">
                 {{item.name}}
@@ -73,6 +52,7 @@
 </template>
 
 <script>
+  import axios from 'axios';
   import { Swipe, SwipeItem } from 'vue-swipe';
   import BScroll from 'better-scroll';
   import Musictitle from './Musictitle/Musictitle.vue';
@@ -85,6 +65,7 @@
     data() {
       return {
         music: {},
+        bannerlist:{},
         info: {
           src: './static/img/aei.png',
           content: '推荐歌单'
@@ -93,19 +74,24 @@
       };
     },
     created() {
-      this.get();
+      this.getData();
 //      this.music = data.music;
     },
     methods: {
-      get() {
+      getData() {
         this.loading = true;
-        this.$http.get(api.getPlayListByWhere('全部', 'hot', 0, true, 9)).then((res) => {
+        axios.get(api.getBanner()).then((res)=>{
+          // let data = res.data.banners;
+          // console.log(res.data.banners);
+          this.bannerlist = res.data.banners;
+        })
+        axios.get(api.getPlayListByWhere('hot',15)).then((res)=>{
           this.music = res.data.playlists;
-          this.$nextTick(() => {
+          this.$nextTick(()=>{
             this._initScroll();
-          });
+          })
           this.loading = false;
-        });
+        })
       },
       _initScroll() {
         if (!this.helloScroll) {
@@ -116,11 +102,11 @@
           this.helloScroll.refresh();
         }
       },
-      openmenuTotal: function (item) {
+      openmenuTotal(item) {
         this.$refs.musicmenu.show();
         this.$refs.musicmenu.setmusiclist(item);
       },
-      show: function (item) {
+      show(item) {
         this.$refs.musicsong.show(item);
       }
     },
