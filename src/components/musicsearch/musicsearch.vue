@@ -47,6 +47,15 @@ export default{
     };
   },
   methods: {
+     getColor(){
+          var colorElements = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f";
+          var colorArray = colorElements.split(",");
+          var color ="#";
+          for(var i =0;i<6;i++){
+              color+=colorArray[Math.floor(Math.random()*16)];
+          }
+          return color;
+      },
     showlist() {
       this.lshow = true;
     },
@@ -89,6 +98,14 @@ export default{
         }
       });
     }
+  },
+  created(){
+    let leftColor = this.getColor();
+    let rightColor = this.getColor();
+    let style1 = `linear-gradient(to right, ${leftColor} 0%, ${rightColor} 100%)`
+    let style2 = `linear-gradient(to right, ${leftColor} 0%, ${rightColor} 100%)`
+    document.querySelector('.search').style.cssText = `background-image: ${style1}`;
+    // document.querySelector('.menu-title').style.cssText=`background-image:${style2}`;
   }
 };
 </script>
@@ -96,7 +113,8 @@ export default{
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/mixin.styl";
   .search
-    background:#d43c33
+    // background:#d43c33
+    background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
     height:46px
     display :flex
     .yuyin

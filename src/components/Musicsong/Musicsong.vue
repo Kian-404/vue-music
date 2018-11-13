@@ -113,11 +113,27 @@
       };
     },
     created() {
+    let leftColor = this.getColor();
+    let rightColor = this.getColor();
+    let style1 = `linear-gradient(to right, ${leftColor} 0%, ${rightColor} 100%)`
+    let style2 = `linear-gradient(to right, ${leftColor} 0%, ${rightColor} 100%)`
+    document.querySelector('.musicsong-wrapper').style.cssText = `background-image: ${style1}`;
+    document.querySelector('.menu-title').style.cssText=`background-image:${style2}`;
       this.$nextTick(() => {
         this.canPlaySong();
       });
     },
     methods: {
+      getColor(){
+          var colorElements = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f";
+          var colorArray = colorElements.split(",");
+          var color ="#";
+          for(var i =0;i<6;i++){
+              color+=colorArray[Math.floor(Math.random()*16)];
+          }
+          return color;
+      },
+
       //上一曲
       pre() {
         if (this.index > 0) {
@@ -207,20 +223,27 @@
       },
       //获取歌曲的URL并播放
       get(item) {
-        axios.get(api.getSong(item.id)).then((res)=>{
-          console.log("加载成功");
-          if (res.data.data[0].url === null) {
-            // console.log('歌曲加载错误');
-          } else {
-            this.audiourl = res.data.data[0].url;
-            this.canPlaySong();
-            this.$nextTick(() => {
-              this.canPlaySong();
-            });
-          }
-        }).catch((error) => {
-          console.log('加载歌曲信息出错:' + error);
-        });
+        console.log(123);
+        this.audiourl = 'http://music.163.com/song/media/outer/url?id=' + item.id +'.mp3';
+        this.canPlaySong();
+        // this.$nextTick(() => {
+        //   this.canPlaySong();
+        // });
+        // axios.get(api.getSong(item.id)).then((res)=>{
+        //   console.log("加载成功");
+        //   if (res.data.data[0].url === null) {
+        //     // console.log('歌曲加载错误');
+        //   } else {
+        //     // this.audiourl = res.data.data[0].url;
+        //     this.audiourl = 'http://music.163.com/song/media/outer/url?id=' + item.id +'.mp3';
+        //     this.canPlaySong();
+        //     this.$nextTick(() => {
+        //       this.canPlaySong();
+        //     });
+        //   }
+        // }).catch((error) => {
+        //   console.log('加载歌曲信息出错:' + error);
+        // });
       },
       //隐藏播放器
       hide() {
@@ -285,6 +308,7 @@
     min-height: 667px
     z-index:100
     background:#ceacac
+    background-image: linear-gradient(to right, #f9d423 0%, #ff4e50 100%);
     &.fade-enter-active, &.fade-leave-active
       transition: all 0.2s linear
       transform translate3d(0, 0, 0)
@@ -293,7 +317,7 @@
       transform translate3d(100%, 0, 0)
     .menu-title
       display :flex
-      background: rgba(7, 17, 27, 0.3)
+      // background: rgba(7, 17, 27, 0.3)
       border-1px(#ddd)
       .back
         flex-basis:40px

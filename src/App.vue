@@ -77,15 +77,20 @@ export default {
     .bar
       width: 25%
       height: 2px
-      background: #FF0200
+      // background: #FF0200
+      background-image: linear-gradient(to right, #92fe9d 0%, #00c9ff 100%);
       transition: all 0.375s linear 
       &.classmove0
         transform: translate3d(0,0,0)
+        background-image: linear-gradient(-20deg, #d558c8 0%, #24d292 100%);
       &.classmove1
         transform: translate3d(100%,0,0)
+        background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);
       &.classmove2
         transform: translate3d(200%,0,0)
+        background-image: linear-gradient(to right, #00dbde 0%, #fc00ff 100%);
       &.classmove3
         transform: translate3d(300%,0,0)
+        background-image: linear-gradient(60deg, #64b3f4 0%, #c2e59c 100%);
 
 </style>

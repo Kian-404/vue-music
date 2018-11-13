@@ -54,7 +54,7 @@
         <div class="music-list">
           <musictitle :info="info" ></musictitle>
           <ul class="list-ul">
-            <li v-for="item in music" @click="openmenuTotal(item)">
+            <li v-for="(item, index) in music" @click="openmenuTotal(item)" :key="index">
               <img v-lazy="item.coverImgUrl" alt=""/>
               <div class="item-content">
                 {{item.name}}

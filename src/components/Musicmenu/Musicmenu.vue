@@ -114,6 +114,15 @@ export default{
     };
   },
   methods: {
+    getColor(){
+      var colorElements = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f";
+      var colorArray = colorElements.split(",");
+      var color ="#";
+      for(var i =0;i<6;i++){
+          color+=colorArray[Math.floor(Math.random()*16)];
+      }
+      return color;
+    },
     show() {
       this.showFlag = true;
     },
@@ -192,6 +201,14 @@ export default{
         this.menuScroll.refresh();
       }
     }
+  },
+  mounted(){
+    let leftColor = this.getColor();
+    let rightColor = this.getColor();
+    let style1 = `linear-gradient(to right, ${leftColor} 0%, ${rightColor} 100%)`
+    let style2 = `linear-gradient(to right, ${leftColor} 0%, ${rightColor} 100%)`
+    // document.querySelector('.musicsong-wrapper').style.cssText = `background-image: ${style1}`;
+    // document.querySelector('.menu-title').style.cssText=`background-image:${style2}`;
   }
 };
 </script>
