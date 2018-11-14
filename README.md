@@ -1,6 +1,17 @@
-# 用vuejs仿网易云音乐（实现听歌以及排行榜）
+# Vuejs仿网易云音乐
+
+> 目前修复了原来的fork的接口失效的问题， 通过使用`NeteaseCloudMusicApi`提供的接口
+
+> fork from https://github.com/hua1995116/musiccloudWebapp
 
 > [在线演示(记得打开手机调试模式 QwQ)](http://118.89.227.245/#/home)
+
+**实现功能**
+
+ - 推荐歌单
+ - 热门歌手
+ - 歌曲播放
+
 
 # Vue-Music
 
@@ -12,11 +23,11 @@
 
 git clone git@github.com:Binaryify/NeteaseCloudMusicApi.git
 
-# install dependencies
+# install server dependencies
 
 npm install
 
-# serve with hot reload at localhost:3000
+# serve run localhost:3000
 
 node app.js
 
@@ -25,7 +36,7 @@ node app.js
 ## Client Build Setup
 
 ``` bash
-# install dependencies
+# install client dependencies
 npm install
 
 # serve with hot reload at localhost:8080
