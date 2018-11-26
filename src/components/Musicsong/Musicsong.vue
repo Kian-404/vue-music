@@ -24,7 +24,7 @@
         </div>
         <div class="bottom">
           <div class="menu">
-            <span></span>
+            <span @click="collectionSong" class="collection"></span>
             <span></span>
             <span></span>
             <span></span>
@@ -95,6 +95,7 @@
   export default{
     data() {
       return {
+        collectionFalg:0,
         index: -1,
         listshow: false,
         showFlag: false,
@@ -124,6 +125,17 @@
       });
     },
     methods: {
+      //收藏歌曲
+      collectionSong(){
+        if(this.collectionFalg === 1){
+        //  document.querySelector('.collection').style.cssText=" background-image:url(../../../static/img/collect-active.png)"
+        this.collectionFalg = 0;
+
+        }else{
+          // document.querySelector('.collection').style.cssText=" background-image:url(../../../static/img/collect.png)"
+          this.collectionFalg = 1;
+        }
+      },
       getColor(){
           var colorElements = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f";
           var colorArray = colorElements.split(",");

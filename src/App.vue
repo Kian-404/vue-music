@@ -15,11 +15,13 @@
       <div class="bar" :class="Classmove"></div>
     </header>
     <router-view ref="menu"></router-view>
+    <!-- <musicsong ref="musicsong"></musicsong> -->
   </div>
 </template>
 
 <script>
 import musicsearch from './components/musicsearch/musicsearch';
+import musicsong from './components/Musicsong/Musicsong';
 export default {
   data() {
     return {
@@ -29,8 +31,10 @@ export default {
   },
   methods: {
     showsong(item) {
-      console.log(11);
+      // console.log(11);
       this.$refs.menu.show(item);
+      this.$refs.musicsong.show(item);
+
     },
     move(val){
       if (val === '/home') {
@@ -45,7 +49,8 @@ export default {
     }
   },
   components: {
-    musicsearch
+    musicsearch,
+    musicsong
   }
 };
 </script>

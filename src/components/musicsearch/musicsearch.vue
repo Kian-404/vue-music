@@ -3,7 +3,7 @@
     <div class="search">
       <div class="yuyin"></div>
       <div class="input" @click="showlist">
-        <input type="text" value="" placeholder="搜索音乐、歌曲、电台" id="inputvalue" @keydown="search">
+        <input type="text" value="" placeholder="搜索音乐、歌曲、电台" id="inputvalue" @keyup="search">
       </div>
       <div class="music" @click="hidelist">
         <span v-show="lshow">取消</span>
@@ -38,6 +38,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+import axios from 'axios'
+import api from '../../api/index'
 export default{
   data() {
     return {
@@ -62,6 +64,7 @@ export default{
     hidelist() {
       document.getElementById('inputvalue').value = '';
       this.lshow = false;
+      this.list = [];
     },
     openmusicsong() {
       var obj = null;
@@ -69,34 +72,53 @@ export default{
     },
     opensong(item) {
       if (item) {
-
+        this.lshow = false;
       } else {
         item = null;
       }
       var obj = {
         id: item.id,
-        migUrl: item.album.picUrl,
+        migUrl: item.album.artist.img1v1Url,
         name: item.name,
         songname: item.artists[0].name,
-        audiosrc: item.mp3Url
+        // audiosrc: item.mp3Url
       };
       this.$emit('musicsearch', obj);
     },
     search() {
       var name = document.getElementById('inputvalue').value;
-      this.$http.get('/key/' + name).then((res) => {
-        var data = res.data.data;
-        var obj = JSON.parse(data).result.songs;
-        this.list.splice(0, this.list.length);
-        for (var i in obj) {
-          this.$http.get('/detail/' + obj[i].id).then((res) => {
-            var listdetail = JSON.parse(res.data.data).songs[0];
-            this.list.push(listdetail);
-          }).catch((error) => {
-            console.log('加载歌曲信息出错:' + error);
-          });
-        }
-      });
+      // console.log(name);
+      if(name.length >0){
+        setTimeout(() =>{
+          axios.get(api.search(name)).then((res) => {
+            // console.log(res);
+            var data = res.data;
+            var obj = data.result.songs;
+            // this.list.splice(0, this.list.length);
+            this.list = obj;
+            console.log(obj);
+            // axios.get(api.getPlayListDetail(obj[1].id)).then((res) => {
+            //     console.log(res);
+            
+            // });
+          })
+        }, 600)
+
+      }
+
+      // this.$http.get('/key/' + name).then((res) => {
+      //   var data = res.data.data;
+      //   var obj = JSON.parse(data).result.songs;
+      //   this.list.splice(0, this.list.length);
+      //   for (var i in obj) {
+      //     this.$http.get('/detail/' + obj[i].id).then((res) => {
+      //       var listdetail = JSON.parse(res.data.data).songs[0];
+      //       this.list.push(listdetail);
+      //     }).catch((error) => {
+      //       console.log('加载歌曲信息出错:' + error);
+      //     });
+      //   }
+      // });
     }
   },
   created(){

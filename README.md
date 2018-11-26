@@ -8,10 +8,10 @@
 
 **实现功能**
 
- - 推荐歌单
- - 热门歌手
- - 歌曲播放
-
+ - 推荐歌单 ✅
+ - 热门歌手 ✅
+ - 歌曲播放 ✅
+ - 搜索功能 ✅
 
 # Vue-Music
 
@@ -51,4 +51,21 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
+>目录结构
 
+```
+.
+├── README.md
+├── build
+├── config
+├── dist
+├── favicon.ico
+├── index.html
+├── node_modules
+├── package.json
+├── prod.server.js
+├── resource
+├── src
+└── static
+
+```
