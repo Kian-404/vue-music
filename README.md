@@ -1,6 +1,6 @@
 # Vuejs仿网易云音乐
 
-> 目前修复了原来的fork的接口失效的问题， 通过使用`NeteaseCloudMusicApi`提供的接口
+> 目前修复了原来的fork的接口失效的问题， 通过使用[`NeteaseCloudMusicApi`](https://github.com/Binaryify/NeteaseCloudMusicApi)提供的接口
 
 > fork from https://github.com/hua1995116/musiccloudWebapp
 
