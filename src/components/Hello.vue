@@ -203,9 +203,6 @@
           background: url(../assets/ph.png) no-repeat
           background-size:50px 50px
           background-position: center
-
-
-
     .music-list
       .list-ul li
         /*float: left;*/
@@ -216,6 +213,7 @@
         margin-bottom: 2.5%
         box-sizing: border-box
         vertical-align: top
+        border-radius 10px;
         img
           width: 100%
         .item-content

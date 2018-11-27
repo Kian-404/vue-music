@@ -1,7 +1,7 @@
-// const _baseUrl = 'http://localhost:3000';
+const _baseUrl = 'http://localhost:3000';
 // ?limit=10&order=hot
 const _baseUrl2 = 'https://api.imjad.cn/cloudmusic/';
-const _baseUrl = 'http://118.89.227.245:3000';
+// const _baseUrl = 'http://118.89.227.245:3000';
 export default {
   //获取推荐歌单
   getPlayListByWhere ( order, limit) {

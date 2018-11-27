@@ -30,6 +30,7 @@ $RECYCLE.BIN/
 /dist/
 /dist_back/
 node_modules/
+resource/
 # Thumbnails
 ._*
 
