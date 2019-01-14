@@ -3,7 +3,7 @@
     <div class="search">
       <div class="yuyin"></div>
       <div class="input" @click="showlist">
-        <input type="text" value="" placeholder="搜索音乐、歌曲、电台" id="inputvalue" @keyup="search">
+        <input  type="text" value="" placeholder="搜索音乐、歌曲、电台" id="inputvalue" @keyup="search" >
       </div>
       <div class="music" @click="hidelist">
         <span v-show="lshow">取消</span>
@@ -11,6 +11,12 @@
       </div>
     </div>
     <div class="searchresult" v-show="lshow">
+      <ul v-show="!searchname.length">
+        <p class="searchname">热门搜索</p>
+        <li class="searchhot" v-for="(item, index) in hotsresult" :key="index" @click="search(item.first, true)">
+          {{item.first}}
+        </li>
+      </ul>
       <ul class="list-ul">
         <li v-for="(item, index) in list" @click="opensong(item)" :key="index">
           <div class="img" :class="{'active': number===index}">
@@ -45,7 +51,9 @@ export default{
     return {
       list: [],
       number: -1,
-      lshow: false
+      lshow: false,
+      searchname:'',
+      hotsresult:[]
     };
   },
   methods: {
@@ -60,11 +68,16 @@ export default{
       },
     showlist() {
       this.lshow = true;
+      axios.get(api.getsearchhot()).then((res) => {
+        console.log(res.data.result.hots);
+        this.hotsresult  = res.data.result.hots;
+      })
     },
     hidelist() {
-      document.getElementById('inputvalue').value = '';
       this.lshow = false;
       this.list = [];
+      document.querySelector('#inputvalue').value = '';
+      this.searchname = ''
     },
     openmusicsong() {
       var obj = null;
@@ -86,8 +99,17 @@ export default{
       this.$emit('musicsearch', obj);
     },
     search() {
-      var name = document.getElementById('inputvalue').value;
-      // console.log(name);
+      var name = ''
+      console.log(this.searchname.length);
+      if(arguments[1]){
+        this.searchname = arguments[0];
+        name = arguments[0];
+        document.querySelector('#inputvalue').value = name;
+      }else{
+        name = document.querySelector('#inputvalue').value;
+      }
+      this.searchname = name;
+      console.log(name);
       if(name.length >0){
         setTimeout(() =>{
           axios.get(api.search(name)).then((res) => {
@@ -173,6 +195,22 @@ export default{
     width:100%
     background: #ffffff
     z-index:10
+    .searchname
+      // color: rgba(255, 255, 255, 0.5);
+      font-size: 16px
+      font-weight bold
+      margin-bottom: 10px
+      margin-top 10px
+      margin-left 10px
+    .searchhot
+      display: inline-block
+      padding: 10px 10px
+      border-radius: 10px
+      border 2px solid #fcc
+      font-size: 16px
+      margin-left 10px
+      margin-bottom: 10px;
+      margin-right: 10px
     .list-ul
       li
         display:flex

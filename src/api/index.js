@@ -1,4 +1,4 @@
-const _baseUrl = 'http://localhost:3000';
+const _baseUrl = process.env.NODE_ENV == 'development' ? 'http://localhost:3000': 'http://118.89.227.245:3000';
 // ?limit=10&order=hot
 const _baseUrl2 = 'https://api.imjad.cn/cloudmusic/';
 // const _baseUrl = 'http://118.89.227.245:3000';
@@ -44,5 +44,16 @@ export default {
   //获取歌手单曲
   getSongs(id){
     return _baseUrl +'/artists?id=' + id;
+  },
+  //获取mv
+  getMvhot(pagenum){  
+    return `${_baseUrl}/top/mv?limit=${pagenum}`
+  },
+  getMvUrl(id){
+    return `${_baseUrl}/mv/detail?mvid=${id}`
+  },
+  //热搜
+  getsearchhot(){
+    return `${_baseUrl}/search/hot`
   }
 };

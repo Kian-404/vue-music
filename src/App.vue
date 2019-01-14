@@ -9,7 +9,7 @@
         <li class="head-li" @click="move('/rank')">排行榜</li> -->
         <router-link class="head-li" tag="li" @click.native="move('/home')" to="/home">个性推荐</router-link>
         <router-link class="head-li" tag="li" @click.native="move('/music')" to="/music">歌单</router-link>
-        <router-link class="head-li" tag="li" @click.native="move('/station')" to="/station">主播电台</router-link>
+        <router-link class="head-li" tag="li" @click.native="move('/station')" to="/station">热门Mv</router-link>
         <router-link class="head-li" tag="li" @click.native="move('/rank')" to="/rank">排行榜</router-link>
       </ul>
       <div class="bar" :class="Classmove"></div>
@@ -33,7 +33,7 @@ export default {
     showsong(item) {
       // console.log(11);
       this.$refs.menu.show(item);
-      this.$refs.musicsong.show(item);
+      // this.$refs.musicsong.show(item);
 
     },
     move(val){

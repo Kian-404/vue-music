@@ -5,7 +5,7 @@
         <div class="swipe-wrapper">
           <swipe class="my-swipe">
             <swipe-item class="slide1" v-for="(banner, index) in bannerlist" :key="index">
-              <img :src="banner.picUrl" alt="">
+              <img :src="banner.imageUrl" alt="">
             </swipe-item>
           </swipe>
         </div>
@@ -205,12 +205,12 @@
           margin-top: 5px
       .card-li:nth-child(1)
         .circle
-          background: url(http://ozt4jt8av.bkt.clouddn.com/FM.png) no-repeat
+          background: url('../assets/FM.png') no-repeat
           background-size:50px 50px
           background-position: center
       .card-li:nth-child(3)
         .circle
-          background: url(http://ozt4jt8av.bkt.clouddn.com/ph.png) no-repeat
+          background: url('../assets/ph.png') no-repeat
           background-size:50px 50px
           background-position: center
     .music-list
